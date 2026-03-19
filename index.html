@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Alert</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .block {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .emergency {
+            background-color: #ff9900;
+            color: white;
+        }
+
+        .normal {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚗 Vehicle Alert</h1>
+    <p>This vehicle seems to be blocking you.</p>
+
+    <button class="block" onclick="sendAlert('blocking')">
+        🚗 Blocking My Vehicle
+    </button>
+
+    <button class="emergency" onclick="sendAlert('emergency')">
+        🚨 Emergency
+    </button>
+
+    <button class="normal" onclick="sendAlert('normal')">
+        ⏳ Just Inform
+    </button>
+</div>
+
+<script>
+function sendAlert(type) {
+    let message = "";
+
+    if (type === "blocking") {
+        message = "Your car is blocking mine. Please move it.";
+    } else if (type === "emergency") {
+        message = "URGENT: Please come immediately!";
+    } else {
+        message = "Just informing about your parked vehicle.";
+    }
+
+    let phoneNumber = "911111111111"; // put your number here
+
+    let link = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+
+    window.open(link, "_blank");
+}
+
+</script>
+
+</body>
+</html>
