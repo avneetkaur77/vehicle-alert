@@ -67,25 +67,31 @@
 </div>
 
 <script>
-function sendAlert(type) {
-    let message = "";
-
-    if (type === "blocking") {
-        message = "Your car is blocking mine. Please move it.";
-    } else if (type === "emergency") {
-        message = "URGENT: Please come immediately!";
-    } else {
-        message = "Just informing about your parked vehicle.";
+    function getCarId() {
+        let params = new URLSearchParams(window.location.search);
+        return params.get("id");
     }
-
-    let phoneNumber = "911111111111"; // put your number here
-
-    let link = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
-
-    window.open(link, "_blank");
-}
-
-</script>
+    
+    function sendAlert(type) {
+        let carId = getCarId();
+    
+        let message = "";
+    
+        if (type === "blocking") {
+            message = "Your car (" + carId + ") is blocking mine. Please move it.";
+        } else if (type === "emergency") {
+            message = "URGENT for car " + carId + ": Please come immediately!";
+        } else {
+            message = "Info regarding your car (" + carId + ").";
+        }
+    
+        let phoneNumber = "919876543210"; // keep yours for now
+    
+        let link = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+    
+        window.open(link, "_blank");
+    }
+    </script>
 
 </body>
 </html>
