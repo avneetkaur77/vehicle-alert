@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Vehicle</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            padding: 50px;
+            background: #f5f5f5;
+        }
+
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>🚗 Register Your Vehicle</h2>
+
+    <input id="carId" placeholder="Enter vehicle number"><br>
+    <input id="phone" placeholder="Enter phone number"><br>
+
+    <button onclick="registerCar()">Register</button>
+
+    <div id="result"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCJLaL4wMpI6p5vYiL-t2Wsgx1UxK6bu_k",
+  authDomain: "vehicle-alert-94312.firebaseapp.com",
+  projectId: "vehicle-alert-94312",
+  storageBucket: "vehicle-alert-94312.firebasestorage.app",
+  messagingSenderId: "899638186477",
+  appId: "1:899638186477:web:4e5007e6817ba0fc5897e4",
+  measurementId: "G-TZCT9BKJYW"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Register function
+window.registerCar = async function() {
+
+    let carId = document.getElementById("carId").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+
+    if (!carId || !phone) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    // Save in Firebase
+    await setDoc(doc(db, "cars", carId), {
+        phone: phone
+    });
+
+    // Generate QR link
+    let qrLink = `https://avneetkaur77.github.io/vehicle-alert/?id=${carId}`;
+
+    // Generate QR image using API
+    let qrImage = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrLink)}`;
+
+    document.getElementById("result").innerHTML = `
+        <p><b>Your QR Code:</b></p>
+        <img src="${qrImage}" />
+        <p>${qrLink}</p>
+    `;
+}
+
+</script>
+
+</body>
+</html>
